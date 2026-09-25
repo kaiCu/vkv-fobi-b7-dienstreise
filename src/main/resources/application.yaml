@@ -1,0 +1,96 @@
+spring:
+  application:
+    name: dienstreise
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+  session:
+    jdbc:
+      initialize-schema: never
+  messages:
+    basename: messages
+    fallback-to-system-locale: false
+  web:
+    locale: de_DE
+    locale-resolver: fixed
+  thymeleaf:
+    cache: true
+  security:
+    oauth2:
+      client:
+        registration:
+          dienstreise:
+            provider: dienstreise
+            client-id: ${DIENSTREISE_OIDC_CLIENT_ID}
+            client-secret: ${DIENSTREISE_OIDC_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope: openid,profile
+        provider:
+          dienstreise:
+            issuer-uri: ${DIENSTREISE_OIDC_ISSUER_URI}
+
+server:
+  shutdown: graceful
+  error:
+    include-stacktrace: never
+    include-message: never
+    whitelabel:
+      enabled: false
+  servlet:
+    session:
+      timeout: ${DIENSTREISE_SESSION_TIMEOUT:30m}
+      cookie:
+        secure: true
+        http-only: true
+        same-site: lax
+
+management:
+  server:
+    port: ${MANAGEMENT_SERVER_PORT:8081}
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,db
+  health:
+    readinessstate:
+      enabled: true
+  tracing:
+    export:
+      enabled: ${OTEL_EXPORT_ENABLED:false}
+  otlp:
+    metrics:
+      export:
+        enabled: ${OTEL_EXPORT_ENABLED:false}
+        url: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318}/v1/metrics
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318}/v1/traces
+
+logging:
+  structured:
+    format:
+      console: ecs
+
+dienstreise:
+  cars:
+    - name: ${DIENSTREISE_CARS_0_NAME}
+      license-plate: ${DIENSTREISE_CARS_0_LICENSE_PLATE}
+    - name: ${DIENSTREISE_CARS_1_NAME}
+      license-plate: ${DIENSTREISE_CARS_1_LICENSE_PLATE}
+    - name: ${DIENSTREISE_CARS_2_NAME}
+      license-plate: ${DIENSTREISE_CARS_2_LICENSE_PLATE}
+  retention:
+    period: ${DIENSTREISE_RETENTION_PERIOD:}
+    cron: ${DIENSTREISE_RETENTION_CRON:0 0 * * * *}

@@ -1,0 +1,25 @@
+# Example production values. Copy per environment; never commit secrets.
+# Aufbewahrungsfrist mit DSB abstimmen (FR-024).
+image:
+  repository: registry.example.org/lgln/dienstreise
+  tag: "0.1.0"
+
+ingress:
+  host: dienstreise.example.org
+  tlsSecretName: dienstreise-tls
+
+env:
+  datasourceUrl: jdbc:postgresql://postgres.example.org:5432/dienstreise
+  datasourceUsername: dienstreise
+  oidcIssuerUri: https://login.example.org/realms/lgln
+  retentionPeriod: P90D
+
+cars:
+  - name: VW ID.3 (blau)
+    licensePlate: H-LG 1001
+  - name: Škoda Enyaq (weiß)
+    licensePlate: H-LG 1002
+  - name: Opel Corsa-e (grau)
+    licensePlate: H-LG 1003
+
+existingSecret: dienstreise-secrets

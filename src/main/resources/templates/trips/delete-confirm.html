@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{delete.title}, false, ~{::content})}">
+<body>
+<th:block th:fragment="content">
+  <h1 th:text="#{delete.title}">Dienstreise löschen?</h1>
+  <dl class="row">
+    <dt class="col-sm-3" th:text="#{label.car}">Fahrzeug</dt>
+    <dd class="col-sm-9" th:text="${trip.carLabel}">VW ID.3 (H-LG 1001)</dd>
+    <dt class="col-sm-3" th:text="#{label.start}">Beginn</dt>
+    <dd class="col-sm-9" th:text="${trip.start}">02.10.2026, 09:00</dd>
+    <dt class="col-sm-3" th:text="#{label.end}">Ende</dt>
+    <dd class="col-sm-9" th:text="${trip.end}">02.10.2026, 12:00</dd>
+    <dt class="col-sm-3" th:text="#{label.destination}">Reiseziel</dt>
+    <dd class="col-sm-9" th:text="${trip.destination}">Hannover</dd>
+  </dl>
+  <p th:text="#{delete.text}">Die Dienstreise wird endgültig gelöscht.</p>
+  <form method="post" th:action="@{/trips/{id}/delete(id=${trip.id})}" class="d-flex flex-wrap gap-2">
+    <button type="submit" class="btn btn-danger" th:text="#{button.deleteConfirm}">Endgültig löschen</button>
+    <a class="btn btn-outline-secondary" th:href="@{/trips}" th:text="#{button.cancel}">Abbrechen</a>
+  </form>
+</th:block>
+</body>
+</html>

@@ -21,7 +21,8 @@ injected from the organization's secret store as Kubernetes Secrets and never co
 | `DIENSTREISE_RETENTION_PERIOD` | yes in `prod` | `P90D` | ISO-8601 duration > 0 (FR-024). **Value to be agreed with the DPO before go-live.** |
 | `DIENSTREISE_RETENTION_CRON` | no | `0 0 * * * *` | Spring cron; default hourly |
 | `DIENSTREISE_SESSION_TIMEOUT` | no | `30m` | Idle session timeout |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | no | `http://otel-collector:4318` | Tracing/metrics export; disabled if unset |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | no | `http://otel-collector:4318` | Base URL for OTLP tracing/metrics export |
+| `OTEL_EXPORT_ENABLED` | no | `true` | Switches OTLP export on (default `false`). The Helm chart sets it automatically when an endpoint is configured |
 | `SERVER_PORT` / `MANAGEMENT_SERVER_PORT` | no | `8080` / `8081` | Application / probes and metrics |
 
 The car variables are mapped with explicit placeholders in `application.yaml`

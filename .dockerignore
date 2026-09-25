@@ -1,0 +1,15 @@
+target/
+.git/
+specs/
+.claude/
+.specify/
+deploy/
+docs/
+ci/
+.idea/
+.vscode/
+*.iml
+*.log
+.env*
+Dockerfile*
+.dockerignore

@@ -1,0 +1,52 @@
+image:
+  repository: registry.example.org/lgln/dienstreise
+  # Defaults to the chart appVersion. Prefer pinning by digest in environment values.
+  tag: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    memory: 768Mi
+
+service:
+  port: 8080
+
+ingress:
+  enabled: true
+  className: ""
+  host: ""
+  annotations: {}
+  tlsSecretName: ""
+
+env:
+  springProfilesActive: prod
+  datasourceUrl: ""
+  datasourceUsername: ""
+  oidcIssuerUri: ""
+  oidcClientId: dienstreise
+  # ISO-8601 duration, e.g. P90D. Required; agree the value with the DPO (FR-024).
+  retentionPeriod: ""
+  retentionCron: "0 0 * * * *"
+  sessionTimeout: 30m
+  # OTLP endpoint (e.g. http://otel-collector:4318); export is disabled when empty.
+  otelExporterOtlpEndpoint: ""
+
+# Exactly three pool cars (FR-002, FR-003); all fields required.
+cars:
+  - name: ""
+    licensePlate: ""
+  - name: ""
+    licensePlate: ""
+  - name: ""
+    licensePlate: ""
+
+# Name of an existing Secret (from the organization's secret store) with the keys
+# SPRING_DATASOURCE_PASSWORD and DIENSTREISE_OIDC_CLIENT_SECRET.
+existingSecret: ""
+
+podAnnotations: {}

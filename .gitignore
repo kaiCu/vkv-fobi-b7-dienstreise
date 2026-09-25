@@ -1,0 +1,15 @@
+target/
+.idea/
+*.iml
+.vscode/
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+# Playwright traces and screenshots
+test-results/
+playwright-report/
+*.trace.zip

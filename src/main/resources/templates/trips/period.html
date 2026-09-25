@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(${#messages.msg(mode == 'edit' ? 'wizard.edit' : 'wizard.create') + ' – ' + #messages.msg('wizard.step1')}, ${hasErrors}, ~{::content})}">
+<body>
+<th:block th:fragment="content">
+  <h1 th:text="${#messages.msg(mode == 'edit' ? 'wizard.edit' : 'wizard.create') + ' – ' + #messages.msg('wizard.step1')}">Neue Dienstreise – Schritt 1 von 3: Zeitraum</h1>
+  <th:block th:object="${tripForm}">
+    <div th:replace="~{fragments/error-summary :: summary}"></div>
+    <form method="post" th:action="@{${formAction}}">
+      <fieldset class="mb-4">
+        <legend class="h5" th:text="#{wizard.legendStart}">Beginn</legend>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <th:block th:replace="~{fragments/form-field :: input('startDate', 'date', 'label.startDate', null, null)}"></th:block>
+          </div>
+          <div class="col-sm-6">
+            <th:block th:replace="~{fragments/form-field :: input('startTime', 'time', 'label.startTime', null, null)}"></th:block>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="mb-4">
+        <legend class="h5" th:text="#{wizard.legendEnd}">Ende</legend>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <th:block th:replace="~{fragments/form-field :: input('endDate', 'date', 'label.endDate', null, null)}"></th:block>
+          </div>
+          <div class="col-sm-6">
+            <th:block th:replace="~{fragments/form-field :: input('endTime', 'time', 'label.endTime', null, null)}"></th:block>
+          </div>
+        </div>
+      </fieldset>
+      <!--/* Values of later steps survive "Zurück" */-->
+      <input type="hidden" th:if="*{carId != null}" th:field="*{carId}">
+      <input type="hidden" th:if="*{destination != null and !destination.isEmpty()}" th:field="*{destination}">
+      <input type="hidden" th:if="*{version != null}" th:field="*{version}">
+      <div class="d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-primary" name="action" value="next" th:text="#{button.next}">Weiter</button>
+        <a class="btn btn-outline-secondary" th:href="@{/trips}" th:text="#{button.cancel}">Abbrechen</a>
+      </div>
+    </form>
+  </th:block>
+</th:block>
+</body>
+</html>

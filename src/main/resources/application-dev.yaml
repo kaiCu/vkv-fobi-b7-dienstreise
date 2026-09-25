@@ -1,0 +1,34 @@
+# Local development against compose.dev.yaml. Never use in shared environments.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dienstreise
+    username: dienstreise
+    password: dienstreise
+  thymeleaf:
+    cache: false
+
+server:
+  servlet:
+    session:
+      cookie:
+        secure: false
+
+logging:
+  structured:
+    format:
+      console: ""
+
+DIENSTREISE_OIDC_ISSUER_URI: http://localhost:8180/realms/dienstreise
+DIENSTREISE_OIDC_CLIENT_ID: dienstreise
+DIENSTREISE_OIDC_CLIENT_SECRET: dev-secret
+
+DIENSTREISE_CARS_0_NAME: VW ID.3 (blau)
+DIENSTREISE_CARS_0_LICENSE_PLATE: H-LG 1001
+DIENSTREISE_CARS_1_NAME: Škoda Enyaq (weiß)
+DIENSTREISE_CARS_1_LICENSE_PLATE: H-LG 1002
+DIENSTREISE_CARS_2_NAME: Opel Corsa-e (grau)
+DIENSTREISE_CARS_2_LICENSE_PLATE: H-LG 1003
+
+dienstreise:
+  retention:
+    period: P90D

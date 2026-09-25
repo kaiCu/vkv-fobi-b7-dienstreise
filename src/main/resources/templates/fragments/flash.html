@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="flash">
+  <div th:if="${flashSuccess != null}" class="alert alert-success" role="status"
+       th:text="${#messages.msg(flashSuccess)}">Gespeichert.</div>
+  <div th:if="${flashError != null}" class="alert alert-danger" role="alert"
+       th:text="${#messages.msg(flashError)}">Fehler.</div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Cars are given under their environment-variable names, so the explicit placeholders
+# in application.yaml are exercised by every test.
+DIENSTREISE_CARS_0_NAME: Dienstwagen 1
+DIENSTREISE_CARS_0_LICENSE_PLATE: H-LG 101
+DIENSTREISE_CARS_1_NAME: Dienstwagen 2
+DIENSTREISE_CARS_1_LICENSE_PLATE: H-LG 102
+DIENSTREISE_CARS_2_NAME: Dienstwagen 3
+DIENSTREISE_CARS_2_LICENSE_PLATE: H-LG 103
+
+# The client registration itself comes from TestOidcConfig (explicit endpoints, no discovery).
+DIENSTREISE_OIDC_ISSUER_URI: https://idp.test/realms/dienstreise
+DIENSTREISE_OIDC_CLIENT_ID: dienstreise
+DIENSTREISE_OIDC_CLIENT_SECRET: test-secret
+
+dienstreise:
+  retention:
+    period: P90D
+    cron: "-"

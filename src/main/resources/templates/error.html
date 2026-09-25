@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{error.generic.title}, false, ~{::content})}">
+<body>
+<th:block th:fragment="content">
+  <h1 th:text="#{error.generic.title}">Es ist ein Fehler aufgetreten</h1>
+  <p th:text="${status == 403} ? #{error.forbidden.text} : #{error.generic.text}">Bitte versuchen Sie es erneut.</p>
+  <p><a th:href="@{/trips}" th:text="#{error.backToList}">Zurück zu meinen Dienstreisen</a></p>
+</th:block>
+</body>
+</html>

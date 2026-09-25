@@ -1,0 +1,6 @@
+# Production: no defaults for secrets, cars or retention period. All values come from the
+# environment (see specs/001-business-trip-management/contracts/configuration.md).
+# ProdStartupGuard refuses to start without DIENSTREISE_RETENTION_PERIOD (FR-024).
+spring:
+  thymeleaf:
+    cache: true

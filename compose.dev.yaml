@@ -1,0 +1,28 @@
+# Local backing services for development: PostgreSQL + Keycloak (realm "dienstreise").
+# Start: docker compose -f compose.dev.yaml up -d
+services:
+  postgres:
+    image: postgres:17.9
+    environment:
+      POSTGRES_DB: dienstreise
+      POSTGRES_USER: dienstreise
+      POSTGRES_PASSWORD: dienstreise
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.4
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HTTP_PORT: "8180"
+    ports:
+      - "8180:8180"
+    volumes:
+      - ./dev/keycloak/realm-dienstreise.json:/opt/keycloak/data/import/realm-dienstreise.json:ro
+
+volumes:
+  postgres-data:

@@ -118,6 +118,13 @@ below were derived from the specification and the constitution.
   (US4 AS3). The constraint is atomic under any concurrency and across multiple pods,
   without application locks (US4 AS7, FR-018). Editing a trip updates the same row, so a
   trip never conflicts with itself (US4 AS5).
+- **Addendum (implementation, 2026-09-27)**: the concurrency test (SC-007) showed that
+  concurrent inserts checked against the exclusion constraint can **deadlock** in PostgreSQL
+  (SQLSTATE `40P01`) instead of failing with `23P01`. Retrying did not converge under 10
+  parallel bookers. Bookings of the same car are therefore serialized with a
+  transaction-scoped advisory lock (`pg_advisory_xact_lock(namespace, car_id)`) taken before
+  the availability check (`CarBookingLock`). This works across pods, does not affect other
+  cars, and the exclusion constraint remains the final authority.
 - **Lost updates on edit**: optimistic locking with a `version` column; a stale edit form
   is rejected with a message asking the user to reload.
 - **Alternatives considered**: `SELECT … FOR UPDATE` / serializable transactions (more

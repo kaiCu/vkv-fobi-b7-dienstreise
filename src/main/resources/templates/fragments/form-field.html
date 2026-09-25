@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--/* Labelled input bound to a field of the surrounding th:object. hintKey and maxlength may be null. */-->
+<th:block th:fragment="input(name, type, labelKey, hintKey, maxlength)"
+          th:with="invalid=${#fields.hasErrors('__${name}__')},
+                   describedBy=${((hintKey != null ? name + '-hint ' : '') + (invalid ? name + '-error' : '')).trim()}">
+  <label class="form-label" th:for="${name}">
+    <span th:text="${#messages.msg(labelKey)}">Feld</span>
+    <span>(<span th:text="#{label.required}">Pflichtfeld</span>)</span>
+  </label>
+  <input class="form-control" th:type="${type}" th:field="*{__${name}__}" required
+         th:errorclass="is-invalid"
+         th:maxlength="${maxlength}"
+         th:aria-invalid="${invalid ? 'true' : null}"
+         th:aria-describedby="${describedBy.isEmpty() ? null : describedBy}">
+  <div class="form-text" th:if="${hintKey != null}" th:id="${name + '-hint'}"
+       th:text="${#messages.msg(hintKey)}">Hinweis</div>
+  <div class="invalid-feedback" th:if="${invalid}" th:id="${name + '-error'}"
+       th:errors="*{__${name}__}">Fehler</div>
+</th:block>
+</body>
+</html>

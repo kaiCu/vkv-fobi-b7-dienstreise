@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--/* carLabel and destination may be null. period is a TripPeriod. */-->
+<dl th:fragment="summary(carLabel, period, destination)" class="row trip-summary">
+  <th:block th:if="${carLabel != null}">
+    <dt class="col-sm-3" th:text="#{label.car}">Fahrzeug</dt>
+    <dd class="col-sm-9" th:text="${carLabel}">VW ID.3 (H-LG 1001)</dd>
+  </th:block>
+  <dt class="col-sm-3" th:text="#{label.start}">Beginn</dt>
+  <dd class="col-sm-9" th:text="${@fmt.dateTime(period.start)}">02.10.2026, 09:00</dd>
+  <dt class="col-sm-3" th:text="#{label.end}">Ende</dt>
+  <dd class="col-sm-9" th:text="${@fmt.dateTime(period.end)}">02.10.2026, 12:00</dd>
+  <th:block th:if="${destination != null}">
+    <dt class="col-sm-3" th:text="#{label.destination}">Reiseziel</dt>
+    <dd class="col-sm-9" th:text="${destination}">Hannover</dd>
+  </th:block>
+</dl>
+</body>
+</html>

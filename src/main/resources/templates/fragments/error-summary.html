@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--/* Must be used inside a th:object context. Lists every error as a link to its field. */-->
+<div th:fragment="summary" th:if="${#fields.hasErrors('*') or globalError != null}"
+     id="error-summary" class="alert alert-danger" role="alert" tabindex="-1">
+  <h2 class="h5" th:text="#{errorSummary.title}">Bitte korrigieren Sie folgende Angaben:</h2>
+  <ul class="mb-0">
+    <li th:if="${globalError != null}" th:text="${#messages.msg(globalError)}">Fehler</li>
+    <li th:each="e : ${#fields.detailedErrors()}">
+      <a th:unless="${e.global}" class="alert-link" th:href="${'#' + e.fieldName}" th:text="${e.message}">Feldfehler</a>
+      <span th:if="${e.global}" th:text="${e.message}">Fehler</span>
+    </li>
+  </ul>
+</div>
+</body>
+</html>

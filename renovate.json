@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "docker:pinDigests"],
+  "automerge": false,
+  "packageRules": [
+    {
+      "groupName": "Spring Boot",
+      "matchPackageNames": ["org.springframework.boot:**"]
+    },
+    {
+      "groupName": "Testcontainers",
+      "matchPackageNames": ["org.testcontainers:**", "com.github.dasniko:testcontainers-keycloak"]
+    },
+    {
+      "groupName": "Playwright",
+      "matchPackageNames": ["com.microsoft.playwright:**", "com.deque.html.axe-core:**"]
+    }
+  ]
+}

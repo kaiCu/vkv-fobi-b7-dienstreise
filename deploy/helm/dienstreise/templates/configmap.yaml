@@ -1,0 +1,27 @@
+{{- $missing := "Aufbewahrungsfrist/Fahrzeuge fehlen" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "dienstreise.fullname" . }}
+  labels:
+    {{- include "dienstreise.labels" . | nindent 4 }}
+data:
+  SPRING_PROFILES_ACTIVE: {{ .Values.env.springProfilesActive | quote }}
+  SPRING_DATASOURCE_URL: {{ required "env.datasourceUrl fehlt" .Values.env.datasourceUrl | quote }}
+  SPRING_DATASOURCE_USERNAME: {{ required "env.datasourceUsername fehlt" .Values.env.datasourceUsername | quote }}
+  DIENSTREISE_OIDC_ISSUER_URI: {{ required "env.oidcIssuerUri fehlt" .Values.env.oidcIssuerUri | quote }}
+  DIENSTREISE_OIDC_CLIENT_ID: {{ .Values.env.oidcClientId | quote }}
+  DIENSTREISE_RETENTION_PERIOD: {{ required $missing .Values.env.retentionPeriod | quote }}
+  DIENSTREISE_RETENTION_CRON: {{ .Values.env.retentionCron | quote }}
+  DIENSTREISE_SESSION_TIMEOUT: {{ .Values.env.sessionTimeout | quote }}
+  {{- if ne (len .Values.cars) 3 }}
+  {{- fail $missing }}
+  {{- end }}
+  {{- range $i, $car := .Values.cars }}
+  DIENSTREISE_CARS_{{ $i }}_NAME: {{ required $missing $car.name | quote }}
+  DIENSTREISE_CARS_{{ $i }}_LICENSE_PLATE: {{ required $missing $car.licensePlate | quote }}
+  {{- end }}
+  {{- with .Values.env.otelExporterOtlpEndpoint }}
+  OTEL_EXPORTER_OTLP_ENDPOINT: {{ . | quote }}
+  OTEL_EXPORT_ENABLED: "true"
+  {{- end }}

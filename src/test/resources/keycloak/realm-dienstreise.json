@@ -1,0 +1,50 @@
+{
+  "realm": "dienstreise",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "clients": [
+    {
+      "clientId": "dienstreise",
+      "name": "Dienstreise",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "dev-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": ["*"],
+      "webOrigins": ["+"],
+      "attributes": {
+        "post.logout.redirect.uris": "*"
+      }
+    }
+  ],
+  "users": [
+    {
+      "id": "00000000-0000-0000-0000-00000000a001",
+      "username": "anna",
+      "firstName": "Anna",
+      "lastName": "Beispiel",
+      "email": "anna@example.org",
+      "emailVerified": true,
+      "enabled": true,
+      "requiredActions": [],
+      "credentials": [{ "type": "password", "value": "anna", "temporary": false }]
+    },
+    {
+      "id": "00000000-0000-0000-0000-00000000b001",
+      "username": "ben",
+      "firstName": "Ben",
+      "lastName": "Muster",
+      "email": "ben@example.org",
+      "emailVerified": true,
+      "enabled": true,
+      "requiredActions": [],
+      "credentials": [{ "type": "password", "value": "ben", "temporary": false }]
+    }
+  ]
+}

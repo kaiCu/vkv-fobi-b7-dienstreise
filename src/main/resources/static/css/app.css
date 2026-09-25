@@ -1,0 +1,49 @@
+/* Project overrides on top of Bootstrap 5.3 (accessibility, WCAG 2.1 AA). */
+
+/* Clearly visible keyboard focus */
+:focus-visible {
+  outline: 3px solid #0a58ca;
+  outline-offset: 2px;
+}
+
+/* Minimum target size */
+.btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.form-check-input {
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding-left: 0;
+}
+
+.form-check .form-check-input {
+  float: none;
+  margin-left: 0;
+}
+
+/* Disabled radios keep readable labels; availability is also stated in text */
+.form-check-input:disabled ~ .form-check-label {
+  opacity: 1;
+  color: var(--bs-body-color);
+}
+
+#error-summary:focus,
+main:focus {
+  outline: 3px solid #0a58ca;
+}
+
+/* Visually hidden texts (position: absolute) must stay inside the table's scroll container,
+   otherwise they widen the page at 320 px (WCAG 1.4.10 reflow). */
+.table-responsive {
+  position: relative;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(${#messages.msg(mode == 'edit' ? 'wizard.edit' : 'wizard.create') + ' – ' + #messages.msg('wizard.step2')}, ${hasErrors}, ~{::content})}">
+<body>
+<th:block th:fragment="content">
+  <h1 th:text="${#messages.msg(mode == 'edit' ? 'wizard.edit' : 'wizard.create') + ' – ' + #messages.msg('wizard.step2')}">Neue Dienstreise – Schritt 2 von 3: Fahrzeug wählen</h1>
+  <th:block th:object="${tripForm}">
+    <div th:replace="~{fragments/error-summary :: summary}"></div>
+    <dl th:replace="~{fragments/trip-summary :: summary(null, ${period}, null)}"></dl>
+    <div th:if="${noneAvailable}" class="alert alert-warning" th:text="#{trip.car.noneAvailable}">Kein Fahrzeug frei.</div>
+    <form method="post" th:action="@{${formAction}}">
+      <input type="hidden" th:field="*{startDate}">
+      <input type="hidden" th:field="*{startTime}">
+      <input type="hidden" th:field="*{endDate}">
+      <input type="hidden" th:field="*{endTime}">
+      <input type="hidden" th:if="*{destination != null and !destination.isEmpty()}" th:field="*{destination}">
+      <input type="hidden" th:if="*{version != null}" th:field="*{version}">
+      <fieldset id="carId" class="mb-4" tabindex="-1"
+                th:aria-describedby="${#fields.hasErrors('carId') ? 'carId-error' : null}">
+        <legend class="h5" th:text="#{wizard.legendCar}">Fahrzeug wählen</legend>
+        <div class="form-check" th:each="car : ${availability}">
+          <input type="radio" class="form-check-input" name="carId" required
+                 th:id="${'car-' + car.carId}" th:value="${car.carId}"
+                 th:checked="${car.available and tripForm.carId == car.carId}"
+                 th:disabled="${!car.available}">
+          <label class="form-check-label" th:for="${'car-' + car.carId}">
+            <span th:text="${car.label}">VW ID.3 (H-LG 1001)</span>
+            <span th:unless="${car.available}" class="badge text-bg-secondary" th:text="#{label.unavailable}">nicht verfügbar</span>
+          </label>
+        </div>
+        <div class="invalid-feedback d-block" id="carId-error" th:if="${#fields.hasErrors('carId')}"
+             th:errors="*{carId}">Fehler</div>
+      </fieldset>
+      <div class="d-flex flex-wrap gap-2">
+        <th:block th:unless="${noneAvailable}">
+          <button type="submit" class="btn btn-primary" name="action" value="next" th:text="#{button.next}">Weiter</button>
+          <button type="submit" class="btn btn-outline-secondary" name="action" value="back" formnovalidate th:text="#{button.back}">Zurück</button>
+        </th:block>
+        <button th:if="${noneAvailable}" type="submit" class="btn btn-primary" name="action" value="back" formnovalidate
+                th:text="#{button.changePeriod}">Zeitraum ändern</button>
+      </div>
+    </form>
+  </th:block>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(${#messages.msg(notFoundKey ?: 'error.notFound.title')}, false, ~{::content})}">
+<body>
+<th:block th:fragment="content">
+  <h1 th:text="${#messages.msg(notFoundKey ?: 'error.notFound.title')}">Dienstreise nicht gefunden.</h1>
+  <p><a th:href="@{/trips}" th:text="#{error.backToList}">Zurück zu meinen Dienstreisen</a></p>
+</th:block>
+</body>
+</html>

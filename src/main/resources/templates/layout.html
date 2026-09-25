@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, hasErrors, content)">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${(hasErrors ? #messages.msg('page.errorPrefix') + ' ' : '') + title + ' – ' + #messages.msg('app.title')}">Dienstreise</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <script defer th:src="@{/webjars/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script defer th:src="@{/js/error-summary.js}"></script>
+</head>
+<body>
+<a class="visually-hidden-focusable" href="#main" th:text="#{nav.skip}">Zum Inhalt springen</a>
+<header>
+  <nav class="navbar border-bottom bg-body-tertiary" th:aria-label="#{nav.main}">
+    <div class="container flex-wrap gap-2">
+      <a class="navbar-brand" th:href="@{/trips}" th:text="#{app.title}">Dienstreise</a>
+      <div class="d-flex align-items-center flex-wrap gap-3" th:if="${currentUserName != null}">
+        <span th:text="${currentUserName}">Anna Beispiel</span>
+        <form method="post" th:action="@{/logout}">
+          <button type="submit" class="btn btn-outline-dark" th:text="#{nav.logout}">Abmelden</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</header>
+<main id="main" class="container py-4" tabindex="-1">
+  <th:block th:replace="${content}"></th:block>
+</main>
+<footer class="container py-3 border-top">
+  <p class="mb-0" th:text="#{footer.text}">Dienstreisen mit Poolfahrzeugen</p>
+</footer>
+</body>
+</html>

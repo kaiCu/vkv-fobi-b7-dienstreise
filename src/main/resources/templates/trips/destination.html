@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(${#messages.msg(mode == 'edit' ? 'wizard.edit' : 'wizard.create') + ' – ' + #messages.msg('wizard.step3')}, ${hasErrors}, ~{::content})}">
+<body>
+<th:block th:fragment="content">
+  <h1 th:text="${#messages.msg(mode == 'edit' ? 'wizard.edit' : 'wizard.create') + ' – ' + #messages.msg('wizard.step3')}">Neue Dienstreise – Schritt 3 von 3: Reiseziel</h1>
+  <th:block th:object="${tripForm}">
+    <div th:replace="~{fragments/error-summary :: summary}"></div>
+    <dl th:replace="~{fragments/trip-summary :: summary(${carLabel}, ${period}, null)}"></dl>
+    <form method="post" th:action="@{${formAction}}">
+      <input type="hidden" th:field="*{startDate}">
+      <input type="hidden" th:field="*{startTime}">
+      <input type="hidden" th:field="*{endDate}">
+      <input type="hidden" th:field="*{endTime}">
+      <input type="hidden" th:field="*{carId}">
+      <input type="hidden" th:if="*{version != null}" th:field="*{version}">
+      <div class="mb-4">
+        <th:block th:replace="~{fragments/form-field :: input('destination', 'text', 'label.destination', 'hint.destination', 200)}"></th:block>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-primary" name="action" value="save" th:text="#{button.save}">Speichern</button>
+        <button type="submit" class="btn btn-outline-secondary" name="action" value="back" formnovalidate th:text="#{button.back}">Zurück</button>
+      </div>
+    </form>
+  </th:block>
+</th:block>
+</body>
+</html>

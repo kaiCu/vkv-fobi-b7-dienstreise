@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{list.title}, false, ~{::content})}">
+<body>
+<th:block th:fragment="content">
+  <h1 th:text="#{list.title}">Meine Dienstreisen</h1>
+  <th:block th:replace="~{fragments/flash :: flash}"></th:block>
+  <p><a class="btn btn-primary" th:href="@{/trips/new}" th:text="#{list.new}">Neue Dienstreise</a></p>
+
+  <div class="table-responsive" th:unless="${trips.isEmpty()}">
+    <table class="table table-striped align-middle">
+      <caption th:text="#{list.title}">Meine Dienstreisen</caption>
+      <thead>
+      <tr>
+        <th scope="col" th:text="#{label.car}">Fahrzeug</th>
+        <th scope="col" th:text="#{label.start}">Beginn</th>
+        <th scope="col" th:text="#{label.destinationShort}">Ziel</th>
+        <th scope="col" th:text="#{label.end}">Ende</th>
+        <th scope="col" th:text="#{label.status}">Status</th>
+        <th scope="col" th:text="#{label.actions}">Aktionen</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="trip : ${trips}">
+        <td th:text="${trip.carLabel}">VW ID.3 (H-LG 1001)</td>
+        <th scope="row" class="fw-normal" th:text="${trip.start}">02.10.2026, 09:00</th>
+        <td th:text="${trip.destination}">Hannover</td>
+        <td th:text="${trip.end}">02.10.2026, 12:00</td>
+        <td>
+          <span class="badge"
+                th:classappend="${trip.status.name() == 'UPCOMING'} ? 'text-bg-primary' : (${trip.status.name() == 'ONGOING'} ? 'text-bg-warning' : 'text-bg-secondary')"
+                th:text="${#messages.msg(trip.status.messageKey())}">Geplant</span>
+        </td>
+        <td>
+          <div class="d-flex flex-wrap gap-2" th:if="${trip.editable}">
+            <a class="btn btn-sm btn-outline-primary" th:href="@{/trips/{id}/edit(id=${trip.id})}">
+              <span class="visually-hidden" th:text="#{list.actionTarget(${trip.destination}, ${trip.startDate})}">Dienstreise nach Hannover am 02.10.2026</span>
+              <span th:text="#{button.edit}">Bearbeiten</span>
+            </a>
+            <a class="btn btn-sm btn-outline-danger" th:href="@{/trips/{id}/delete(id=${trip.id})}">
+              <span class="visually-hidden" th:text="#{list.actionTarget(${trip.destination}, ${trip.startDate})}">Dienstreise nach Hannover am 02.10.2026</span>
+              <span th:text="#{button.delete}">Löschen</span>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p th:if="${trips.isEmpty()}">
+    <span th:text="#{list.empty}">Sie haben noch keine Dienstreisen erfasst.</span>
+    <a th:href="@{/trips/new}" th:text="#{list.emptyLink}">Neue Dienstreise erfassen</a>
+  </p>
+</th:block>
+</body>
+</html>
